@@ -9,8 +9,8 @@ import os
 import math
 import operator
 
-operator = operator.Operator
-operators = operator.operators
+from tool.operator import Operator
+operators = Operator.operators
 
 def make_data_section1 (num_record, num_operand, operator_input) :
     columns = [f'operand{i}' for i in range (1, num_operand+1)]
@@ -18,8 +18,8 @@ def make_data_section1 (num_record, num_operand, operator_input) :
     
     df = pd.DataFrame(columns=columns)
         
-    for i in range (num_record) :
-        record = operator[operator_input](num_operand, i)
+    for i in range (1, num_record+1) :
+        record = operators[operator_input](num_operand, i)
             
         if record == None : 
             print ("ERROR!")
@@ -27,7 +27,9 @@ def make_data_section1 (num_record, num_operand, operator_input) :
             exit()
                 
         else : 
-            df = df.append(record, ignore_index=True)
+            # df = df.append(record, ignore_index=True)
+            record_df = pd.DataFrame([record])
+            df = pd.concat([df, record_df], ignore_index=True)
             
     return df
 

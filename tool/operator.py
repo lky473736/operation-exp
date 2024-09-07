@@ -7,7 +7,7 @@ import math
 import numpy as np
 import pandas as pd
 
-class Operator:
+class Operator (object) :
     operators = {
         '+': lambda num_operand, i : Operator.add(num_operand, i),
         '-': lambda num_operand, i : Operator.sub(num_operand, i),
@@ -46,7 +46,7 @@ class Operator:
     def montage_record (num_operand) :
         feature, target = [], None
         for i in range (1, num_operand+1) :
-            feature[i] = f'operand{i}'
+            feature.append(f'operand{i}')
         
         return feature, target
     
@@ -71,7 +71,7 @@ class Operator:
     
     @staticmethod
     def add(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -85,7 +85,7 @@ class Operator:
     
     @staticmethod
     def sub(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -102,7 +102,7 @@ class Operator:
     
     @staticmethod
     def mul(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -121,7 +121,7 @@ class Operator:
     @staticmethod
     def truediv(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -139,7 +139,7 @@ class Operator:
     @staticmethod
     def floordiv(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -157,7 +157,7 @@ class Operator:
     @staticmethod
     def mod(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -175,7 +175,7 @@ class Operator:
     @staticmethod
     def pow(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -193,7 +193,7 @@ class Operator:
     @staticmethod
     def bit_and(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -211,7 +211,7 @@ class Operator:
     @staticmethod
     def bit_or(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -229,7 +229,7 @@ class Operator:
     @staticmethod
     def bit_xor(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -247,7 +247,7 @@ class Operator:
     @staticmethod
     def lshift(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -265,7 +265,7 @@ class Operator:
     @staticmethod
     def rshift(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -283,7 +283,7 @@ class Operator:
     @staticmethod
     def divmod(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -300,7 +300,7 @@ class Operator:
     
     @staticmethod
     def max(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -314,7 +314,7 @@ class Operator:
     
     @staticmethod
     def min(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -329,7 +329,7 @@ class Operator:
     @staticmethod
     def hypot(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -347,7 +347,7 @@ class Operator:
     
     @staticmethod
     def gcd(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -365,7 +365,7 @@ class Operator:
     
     @staticmethod
     def lcm(num_operand, i) :
-        feature, target = Operator.montage_record()
+        feature, target = Operator.montage_record(num_operand)
         components = [num for num in range (i, i+num_operand)]
         
         record = dict()
@@ -384,7 +384,7 @@ class Operator:
     @staticmethod
     def log(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -403,7 +403,7 @@ class Operator:
     @staticmethod
     def abssub(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -421,7 +421,7 @@ class Operator:
     @staticmethod
     def eq(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -439,7 +439,7 @@ class Operator:
     @staticmethod
     def ne(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -457,7 +457,7 @@ class Operator:
     @staticmethod
     def gt(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -475,7 +475,7 @@ class Operator:
     @staticmethod
     def lt(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -493,7 +493,7 @@ class Operator:
     @staticmethod
     def ge(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()
@@ -511,7 +511,7 @@ class Operator:
     @staticmethod
     def le(num_operand, i) :
         if num_operand == 2 : 
-            feature, target = Operator.montage_record()
+            feature, target = Operator.montage_record(num_operand)
             components = [num for num in range (i, i+num_operand)]
             
             record = dict()

@@ -3,18 +3,24 @@
     tool/interface (main) 
 '''
 
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
 import pandas as pd
 import numpy as np
 import os
 import math
-import operator
-import make_data
+import tool.operator as operator
+import tool.make_data as make_data
 
-operators = operator.Operator.operators
+from tool.operator import Operator
+operators = Operator.operators
 
 # interface
-def interface (section, num_operand=2, num_record=2, start_num=1, 
-               path='../data/', operator_input=None) :
+def interface (section, num_operand=2, num_record=2, 
+               path='./', operator_input=None) :
     token = 0
     
     if num_operand <= 1 : # unary?
@@ -32,10 +38,10 @@ def interface (section, num_operand=2, num_record=2, start_num=1,
         print ("The file is already at the path you input.")
         token = 1
         
-    if path.find('../data/') != True : 
-        print ("ERROR!")
-        print ("The path is incorrect : main directory is wrong.")
-        token = 1
+    # if path.find('../data/') != True : 
+    #     print ("ERROR!")
+    #     print ("The path is incorrect : main directory is wrong.")
+    #     token = 1
         
     if section not in (1, 2, 3) :
         print ("ERROR!")
@@ -44,15 +50,12 @@ def interface (section, num_operand=2, num_record=2, start_num=1,
     if token == 1 : 
         exit()
         
-    print ("operators that can calculate : ", operators)
+    print ("operators that can calculate : ", operators.keys())
     print ("operator that chosen : ", operator_input)
     print ("section : ", section)
-    print ("")
     
     # if operator is real thing?
-    if operator in operators.keys() : 
-        # 허용된 함수 및 연산자만 사용할 수 있도록 제한
-        
+    if operator_input in operators.keys() :         
         df = pd.DataFrame()
         
         match (section) :
@@ -68,7 +71,9 @@ def interface (section, num_operand=2, num_record=2, start_num=1,
             case 3 : 
                 # df = make_data_custom()    
                 pass
-   
+            
+        df.to_csv (path_or_buf=path, sep=',', na_rep='NaN') 
+        
     else : 
         print ("ERROR!")
         print ("This operator cannot be used.")
