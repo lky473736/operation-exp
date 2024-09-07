@@ -9,38 +9,36 @@ import pandas as pd
 
 class Operator (object) :
     operators = {
-        '+': lambda num_operand, i : Operator.add(num_operand, i),
-        '-': lambda num_operand, i : Operator.sub(num_operand, i),
-        '*': lambda num_operand, i : Operator.mul(num_operand, i),
-        '/': lambda num_operand, i : Operator.truediv(num_operand, i),
-        '%': lambda num_operand, i : Operator.mod(num_operand, i),
-        '**': lambda num_operand, i : Operator.pow(num_operand, i),
-        '//': lambda num_operand, i : Operator.floordiv(num_operand, i),
-        
-        '==': lambda num_operand, i : Operator.eq(num_operand, i),
-        '!=': lambda num_operand, i : Operator.ne(num_operand, i),
-        '>': lambda num_operand, i : Operator.gt(num_operand, i),
-        '<': lambda num_operand, i : Operator.lt(num_operand, i),
-        '>=': lambda num_operand, i : Operator.ge(num_operand, i),
-        '<=': lambda num_operand, i : Operator.le(num_operand, i),
+        '+': ['add', lambda num_operand, i: Operator.add(num_operand, i)],
+        '-': ['sub', lambda num_operand, i: Operator.sub(num_operand, i)],
+        '*': ['mul', lambda num_operand, i: Operator.mul(num_operand, i)],
+        '/': ['truediv', lambda num_operand, i: Operator.truediv(num_operand, i)],
+        '%': ['mod', lambda num_operand, i: Operator.mod(num_operand, i)],
+        '**': ['pow', lambda num_operand, i: Operator.pow(num_operand, i)],
+        '//': ['floordiv', lambda num_operand, i: Operator.floordiv(num_operand, i)],
 
-        '&': lambda num_operand, i : Operator.bit_and(num_operand, i),
-        '|': lambda num_operand, i : Operator.bit_or(num_operand, i),
-        '^': lambda num_operand, i : Operator.bit_xor(num_operand, i),
-        '<<': lambda num_operand, i : Operator.lshift(num_operand, i),
-        '>>': lambda num_operand, i : Operator.rshift(num_operand, i),
+        '==': ['eq', lambda num_operand, i: Operator.eq(num_operand, i)],
+        '!=': ['ne', lambda num_operand, i: Operator.ne(num_operand, i)],
+        '>': ['gt', lambda num_operand, i: Operator.gt(num_operand, i)],
+        '<': ['lt', lambda num_operand, i: Operator.lt(num_operand, i)],
+        '>=': ['ge', lambda num_operand, i: Operator.ge(num_operand, i)],
+        '<=': ['le', lambda num_operand, i: Operator.le(num_operand, i)],
 
-        'divmod': lambda num_operand, i : Operator.divmod(num_operand, i),
-        'max': lambda num_operand, i : Operator.max(num_operand, i),
-        'min': lambda num_operand, i : Operator.min(num_operand, i),
-        'pow': lambda num_operand, i : Operator.pow(num_operand, i),
-        'hypot': lambda num_operand, i : Operator.hypot(num_operand, i),
+        '&': ['bit_and', lambda num_operand, i: Operator.bit_and(num_operand, i)],
+        '|': ['bit_or', lambda num_operand, i: Operator.bit_or(num_operand, i)],
+        '^': ['bit_xor', lambda num_operand, i: Operator.bit_xor(num_operand, i)],
+        '<<': ['lshift', lambda num_operand, i: Operator.lshift(num_operand, i)],
+        '>>': ['rshift', lambda num_operand, i: Operator.rshift(num_operand, i)],
 
-        'gcd': lambda num_operand, i : Operator.gcd(num_operand, i),
-        'lcm': lambda num_operand, i : Operator.lcm(num_operand, i),
-        'log': lambda num_operand, i : Operator.log(num_operand, i),
-        'mod': lambda num_operand, i : Operator.mod(num_operand, i),
-        'abssub': lambda num_operand, i : Operator.abssub(num_operand, i)
+        'divmod': ['divmod', lambda num_operand, i: Operator.divmod(num_operand, i)],
+        'max': ['max', lambda num_operand, i: Operator.max(num_operand, i)],
+        'min': ['min', lambda num_operand, i: Operator.min(num_operand, i)],
+        'hypot': ['hypot', lambda num_operand, i: Operator.hypot(num_operand, i)],
+
+        'gcd': ['gcd', lambda num_operand, i: Operator.gcd(num_operand, i)],
+        'lcm': ['lcm', lambda num_operand, i: Operator.lcm(num_operand, i)],
+        'log': ['log', lambda num_operand, i: Operator.log(num_operand, i)],
+        'abssub': ['abssub', lambda num_operand, i: Operator.abssub(num_operand, i)]
     }
     
     def montage_record (num_operand) :
