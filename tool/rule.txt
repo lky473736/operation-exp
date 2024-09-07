@@ -1,0 +1,32 @@
+'+': self.add,
+'-': self.sub,
+'*': self.mul,
+'/': self.truediv, # @ 두 피연산자만 허용
+'%': self.mod, # @
+'**': pow, # @
+'//': self.floordiv, # @
+
+'==': operator.eq, # @
+'!=': operator.ne, # @
+'>': operator.gt, # @
+'<': operator.lt, # @
+'>=': operator.ge, # @
+'<=': operator.le, # @
+
+'&': operator.and_, # @
+'|': operator.or_, # @
+'^': operator.xor, # @
+'<<': operator.lshift, # @
+'>>': operator.rshift, # @
+
+'divmod': divmod, # @ 두 피연산자만 허용
+'max': max,
+'min': min,
+'pow': pow, # @
+'hypot': math.hypot, # @
+
+'gcd': math.gcd,
+'lcm': math.lcm if hasattr(math, 'lcm') else lambda a, b: abs(a * b) // math.gcd(a, b),
+'log': math.log, # @
+'mod': operator.mod, # @
+'abssub': operator.abs, # @
