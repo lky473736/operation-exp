@@ -19,7 +19,7 @@ def make_data_section1 (num_record, num_operand, operator_input) :
     df = pd.DataFrame(columns=columns)
         
     for i in range (1, num_record+1) :
-        record = operators[operator_input][1](num_operand, i)
+        record = operators[operator_input][1](num_operand)
             
         if record == None : 
             print ("ERROR!")

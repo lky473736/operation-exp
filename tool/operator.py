@@ -6,39 +6,40 @@
 import math
 import numpy as np
 import pandas as pd
+import random
 
 class Operator (object) :
     operators = {
-        '+': ['add', lambda num_operand, i: Operator.add(num_operand, i)],
-        '-': ['sub', lambda num_operand, i: Operator.sub(num_operand, i)],
-        '*': ['mul', lambda num_operand, i: Operator.mul(num_operand, i)],
-        '/': ['truediv', lambda num_operand, i: Operator.truediv(num_operand, i)],
-        '%': ['mod', lambda num_operand, i: Operator.mod(num_operand, i)],
-        '**': ['pow', lambda num_operand, i: Operator.pow(num_operand, i)],
-        '//': ['floordiv', lambda num_operand, i: Operator.floordiv(num_operand, i)],
+        '+': ['add', lambda num_operand: Operator.add(num_operand)],
+        '-': ['sub', lambda num_operand: Operator.sub(num_operand)],
+        '*': ['mul', lambda num_operand: Operator.mul(num_operand)],
+        '/': ['truediv', lambda num_operand: Operator.truediv(num_operand)],
+        '%': ['mod', lambda num_operand: Operator.mod(num_operand)],
+        '**': ['pow', lambda num_operand: Operator.pow(num_operand)],
+        '//': ['floordiv', lambda num_operand: Operator.floordiv(num_operand)],
 
-        '==': ['eq', lambda num_operand, i: Operator.eq(num_operand, i)],
-        '!=': ['ne', lambda num_operand, i: Operator.ne(num_operand, i)],
-        '>': ['gt', lambda num_operand, i: Operator.gt(num_operand, i)],
-        '<': ['lt', lambda num_operand, i: Operator.lt(num_operand, i)],
-        '>=': ['ge', lambda num_operand, i: Operator.ge(num_operand, i)],
-        '<=': ['le', lambda num_operand, i: Operator.le(num_operand, i)],
+        '==': ['eq', lambda num_operand: Operator.eq(num_operand)],
+        '!=': ['ne', lambda num_operand: Operator.ne(num_operand)],
+        '>': ['gt', lambda num_operand: Operator.gt(num_operand)],
+        '<': ['lt', lambda num_operand: Operator.lt(num_operand)],
+        '>=': ['ge', lambda num_operand: Operator.ge(num_operand)],
+        '<=': ['le', lambda num_operand: Operator.le(num_operand)],
 
-        '&': ['bit_and', lambda num_operand, i: Operator.bit_and(num_operand, i)],
-        '|': ['bit_or', lambda num_operand, i: Operator.bit_or(num_operand, i)],
-        '^': ['bit_xor', lambda num_operand, i: Operator.bit_xor(num_operand, i)],
-        '<<': ['lshift', lambda num_operand, i: Operator.lshift(num_operand, i)],
-        '>>': ['rshift', lambda num_operand, i: Operator.rshift(num_operand, i)],
+        '&': ['bit_and', lambda num_operand: Operator.bit_and(num_operand)],
+        '|': ['bit_or', lambda num_operand: Operator.bit_or(num_operand)],
+        '^': ['bit_xor', lambda num_operand: Operator.bit_xor(num_operand)],
+        '<<': ['lshift', lambda num_operand: Operator.lshift(num_operand)],
+        '>>': ['rshift', lambda num_operand: Operator.rshift(num_operand)],
 
-        'divmod': ['divmod', lambda num_operand, i: Operator.divmod(num_operand, i)],
-        'max': ['max', lambda num_operand, i: Operator.max(num_operand, i)],
-        'min': ['min', lambda num_operand, i: Operator.min(num_operand, i)],
-        'hypot': ['hypot', lambda num_operand, i: Operator.hypot(num_operand, i)],
+        'divmod': ['divmod', lambda num_operand: Operator.divmod(num_operand)],
+        'max': ['max', lambda num_operand: Operator.max(num_operand)],
+        'min': ['min', lambda num_operand: Operator.min(num_operand)],
+        'hypot': ['hypot', lambda num_operand: Operator.hypot(num_operand)],
 
-        'gcd': ['gcd', lambda num_operand, i: Operator.gcd(num_operand, i)],
-        'lcm': ['lcm', lambda num_operand, i: Operator.lcm(num_operand, i)],
-        'log': ['log', lambda num_operand, i: Operator.log(num_operand, i)],
-        'abssub': ['abssub', lambda num_operand, i: Operator.abssub(num_operand, i)]
+        'gcd': ['gcd', lambda num_operand: Operator.gcd(num_operand)],
+        'lcm': ['lcm', lambda num_operand: Operator.lcm(num_operand)],
+        'log': ['log', lambda num_operand: Operator.log(num_operand)],
+        'abssub': ['abssub', lambda num_operand: Operator.abssub(num_operand)]
     }
     
     def montage_record (num_operand) :
@@ -68,9 +69,9 @@ class Operator (object) :
         return b
     
     @staticmethod
-    def add(num_operand, i) :
+    def add(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -82,9 +83,9 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def sub(num_operand, i) :
+    def sub(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -99,9 +100,9 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def mul(num_operand, i) :
+    def mul(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -117,17 +118,21 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def truediv(num_operand, i) :
+    def truediv(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
             for i in range (num_operand) : 
                 record[feature[i]] = components[i]
             
-            record['target'] = components[0] / components[1]
+            try : 
+                record['target'] = components[0] / components[1]
+            
+            except ZeroDivisionError : 
+                record['target'] = None
             
             return record
         
@@ -135,17 +140,21 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def floordiv(num_operand, i) :
+    def floordiv(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
             for i in range (num_operand) : 
                 record[feature[i]] = components[i]
             
-            record['target'] = components[0] // components[1]
+            try : 
+                record['target'] = components[0] // components[1]
+            
+            except ZeroDivisionError : 
+                record['target'] = None
             
             return record
         
@@ -153,17 +162,21 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def mod(num_operand, i) :
+    def mod(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
             for i in range (num_operand) : 
                 record[feature[i]] = components[i]
             
-            record['target'] = components[0] % components[1]
+            try : 
+                record['target'] = components[0] % components[1]
+            
+            except ZeroDivisionError : 
+                record['target'] = None
             
             return record
         
@@ -171,10 +184,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def pow(num_operand, i) :
+    def pow(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -189,10 +202,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def bit_and(num_operand, i) :
+    def bit_and(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -207,10 +220,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def bit_or(num_operand, i) :
+    def bit_or(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -225,10 +238,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def bit_xor(num_operand, i) :
+    def bit_xor(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -243,10 +256,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def lshift(num_operand, i) :
+    def lshift(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -261,10 +274,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def rshift(num_operand, i) :
+    def rshift(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -279,17 +292,21 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def divmod(num_operand, i) :
+    def divmod(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
             for i in range (num_operand) : 
                 record[feature[i]] = components[i]
             
-            record['target'] = sum(divmod(components[0], components[1])) # divmod's target is the sumation share and remainder
+            try : 
+                record['target'] = sum(divmod(components[0], components[1])) # divmod's target is the sumation share and remainder
+            
+            except ZeroDivisionError : 
+                record['target'] = None
 
             return record
         
@@ -297,9 +314,9 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def max(num_operand, i) :
+    def max(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -311,9 +328,9 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def min(num_operand, i) :
+    def min(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -325,10 +342,10 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def hypot(num_operand, i) :
+    def hypot(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -344,9 +361,9 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def gcd(num_operand, i) :
+    def gcd(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -354,7 +371,12 @@ class Operator (object) :
             record[feature[i]] = components[i]
 
         gcd = components[0]
+    
         for i in range (num_operand) : 
+            if components[i] == 0 : 
+                gcd = None
+                break
+            
             gcd = Operator.euclidean(gcd, components[i])
         
         record['target'] = gcd
@@ -362,9 +384,9 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def lcm(num_operand, i) :
+    def lcm(num_operand) :
         feature, target = Operator.montage_record(num_operand)
-        components = [num for num in range (i, i+num_operand)]
+        components = [random.randint(0, 101) for i in range (num_operand)]
         
         record = dict()
         
@@ -373,6 +395,10 @@ class Operator (object) :
 
         lcm = components[0]
         for i in range (num_operand) : 
+            if components[i] == 0 : 
+                lcm = None
+                break
+            
             lcm = Operator.euclidean(lcm, components[i]) / (components[i] * lcm)
         
         record['target'] = lcm
@@ -380,18 +406,21 @@ class Operator (object) :
         return record
     
     @staticmethod
-    def log(num_operand, i) :
+    def log(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
             for i in range (num_operand) : 
                 record[feature[i]] = components[i]
             
-            record['target'] = math.log(components[0], 
-                                          components[1])
+            try : 
+                record['target'] = math.log(components[0], components[1])
+                
+            except (ValueError, ZeroDivisionError) : 
+                record['target'] = None
             
             return record
         
@@ -399,10 +428,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def abssub(num_operand, i) :
+    def abssub(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -417,10 +446,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def eq(num_operand, i) :
+    def eq(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -435,10 +464,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def ne(num_operand, i) :
+    def ne(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -453,10 +482,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def gt(num_operand, i) :
+    def gt(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -471,10 +500,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def lt(num_operand, i) :
+    def lt(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -489,10 +518,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def ge(num_operand, i) :
+    def ge(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
@@ -507,10 +536,10 @@ class Operator (object) :
             return None
     
     @staticmethod
-    def le(num_operand, i) :
+    def le(num_operand) :
         if num_operand == 2 : 
             feature, target = Operator.montage_record(num_operand)
-            components = [num for num in range (i, i+num_operand)]
+            components = [random.randint(0, 101) for i in range (num_operand)]
             
             record = dict()
             
