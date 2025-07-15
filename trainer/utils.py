@@ -57,11 +57,36 @@ def load_and_preprocess_data(data_path, section):
         # Classification task
         task_type = 'classification'
         feature_cols = [col for col in df.columns if col.startswith('operand') or col == 'result']
+        
+        print(f"Feature columns: {feature_cols}")
+        print(f"Sample data:")
+        print(df.head())
+        print(f"Data types:")
+        print(df.dtypes)
+        
+        # Check for non-numeric values in features
+        for col in feature_cols:
+            non_numeric = df[col].apply(lambda x: not isinstance(x, (int, float, np.integer, np.floating)))
+            if non_numeric.any():
+                print(f"Non-numeric values found in {col}:")
+                print(df[non_numeric][col].unique())
+                
+        # Convert features to numeric, replacing non-numeric with NaN
+        for col in feature_cols:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+        
         X = df[feature_cols].values
         
         # Handle NaN values in features and target
         target_mask = ~df['target'].isna()
-        feature_mask = ~np.isnan(X).any(axis=1)
+        
+        # Check for NaN in features (now they should be numeric)
+        if np.isnan(X).any():
+            print("NaN values found in features after conversion")
+            feature_mask = ~np.isnan(X).any(axis=1)
+        else:
+            feature_mask = np.ones(len(X), dtype=bool)
+        
         valid_mask = target_mask & feature_mask
         
         X = X[valid_mask]
@@ -75,6 +100,7 @@ def load_and_preprocess_data(data_path, section):
         print(f"Number of classes: {num_classes}")
         print(f"Classes: {le.classes_}")
         print(f"Class distribution: {np.bincount(y)}")
+        print(f"Valid samples after cleaning: {len(X)}")
         
     else:
         raise ValueError(f"Invalid section: {section}")
@@ -82,16 +108,16 @@ def load_and_preprocess_data(data_path, section):
     print(f"Task type: {task_type}")
     print(f"Feature shape: {X.shape}, Target shape: {y.shape}")
     
-    # Check for any remaining NaN values
+    # Final check for any remaining NaN values
     if np.isnan(X).any():
-        print("Warning: NaN values found in features")
+        print("Warning: NaN values still found in features, replacing with 0")
         X = np.nan_to_num(X, nan=0.0)
     
     return X, y, task_type, num_classes
 
 def split_data(X, y, test_size=0.2, val_size=0.2, random_state=42):
     """
-    Split data into train/validation/test sets
+    Split data into train/validation/test sets with stratification
     
     Args:
         X, y: features and targets
@@ -102,19 +128,49 @@ def split_data(X, y, test_size=0.2, val_size=0.2, random_state=42):
     Returns:
         X_train, X_val, X_test, y_train, y_val, y_test
     """
+    # Check class distribution
+    unique_classes, class_counts = np.unique(y, return_counts=True)
+    print(f"Class distribution before split:")
+    for cls, count in zip(unique_classes, class_counts):
+        print(f"  Class {cls}: {count} samples")
+    
     # First split: separate test set
+    # Use stratify only if all classes have at least 2 samples
+    min_class_count = np.min(class_counts)
+    use_stratify = min_class_count >= 2
+    
+    print(f"Using stratified split: {use_stratify} (min class count: {min_class_count})")
+    
     X_temp, X_test, y_temp, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state, stratify=y if len(np.unique(y)) < 20 else None
+        X, y, test_size=test_size, random_state=random_state, 
+        stratify=y if use_stratify else None
     )
     
     # Second split: separate train and validation
     val_size_adjusted = val_size / (1 - test_size)
+    
+    # Check if stratification is still possible after first split
+    unique_temp, temp_counts = np.unique(y_temp, return_counts=True)
+    min_temp_count = np.min(temp_counts)
+    use_stratify_temp = min_temp_count >= 2
+    
     X_train, X_val, y_train, y_val = train_test_split(
         X_temp, y_temp, test_size=val_size_adjusted, random_state=random_state,
-        stratify=y_temp if len(np.unique(y_temp)) < 20 else None
+        stratify=y_temp if use_stratify_temp else None
     )
     
     print(f"Data split - Train: {X_train.shape}, Val: {X_val.shape}, Test: {X_test.shape}")
+    
+    # Print class distribution for each split
+    print("Train class distribution:")
+    unique_train, train_counts = np.unique(y_train, return_counts=True)
+    for cls, count in zip(unique_train, train_counts):
+        print(f"  Class {cls}: {count} samples")
+    
+    print("Test class distribution:")
+    unique_test, test_counts = np.unique(y_test, return_counts=True)
+    for cls, count in zip(unique_test, test_counts):
+        print(f"  Class {cls}: {count} samples")
     
     return X_train, X_val, X_test, y_train, y_val, y_test
 
@@ -172,7 +228,7 @@ def create_model(model_type, task_type, input_dim, output_dim, **model_params):
 
 def run_experiment(data_path, model_type, section, experiment_id=None, 
                   test_size=0.2, val_size=0.2, normalize=True, 
-                  epochs=100, batch_size=32, **model_params):
+                  epochs=100, batch_size=32, use_feature_engineering=False, **model_params):
     """
     Run complete experiment pipeline
     
@@ -209,17 +265,47 @@ def run_experiment(data_path, model_type, section, experiment_id=None,
         X, y, test_size=test_size, val_size=val_size
     )
     
-    # 4. Normalize features if requested
+    # 4. Apply feature engineering if requested
+    if use_feature_engineering and section == 2:
+        print("\n🔧 APPLYING FEATURE ENGINEERING")
+        print("-" * 40)
+        from trainer.feature_engineering import apply_feature_engineering, get_feature_names
+        
+        print(f"Original features shape: {X_train.shape}")
+        print(f"Original features: [operand1, operand2, result]")
+        print(f"Sample original: {X_train[0]}")
+        
+        X_train = apply_feature_engineering(X_train, use_feature_engineering=True)
+        X_val = apply_feature_engineering(X_val, use_feature_engineering=True)
+        X_test = apply_feature_engineering(X_test, use_feature_engineering=True)
+        
+        print(f"\nEnhanced features shape: {X_train.shape}")
+        print(f"Features expanded from 3 to {X_train.shape[1]} dimensions")
+        print(f"New features include: differences, ratios, comparisons, mathematical functions")
+        print(f"Sample enhanced (first 10): {X_train[0][:10]}")
+        
+        # Check for any problematic values
+        print(f"\nFeature statistics:")
+        print(f"  Min: {X_train.min():.3f}, Max: {X_train.max():.3f}")
+        print(f"  Mean: {X_train.mean():.3f}, Std: {X_train.std():.3f}")
+        print(f"  NaN count: {np.isnan(X_train).sum()}")
+        print(f"  Inf count: {np.isinf(X_train).sum()}")
+        
+        # Show feature names
+        feature_names = get_feature_names()
+        print(f"\nFeature names: {feature_names[:10]}... (showing first 10)")
+    
+    # 5. Normalize features if requested
     if normalize:
         X_train, X_val, X_test, scaler = normalize_features(X_train, X_val, X_test)
     
-    # 5. Determine output dimension
+    # 6. Determine output dimension
     if task_type == 'regression':
         output_dim = 1
     else:  # classification
         output_dim = num_classes
     
-    # 6. Create model
+    # 7. Create model
     model = create_model(
         model_type=model_type,
         task_type=task_type,
@@ -228,10 +314,10 @@ def run_experiment(data_path, model_type, section, experiment_id=None,
         **model_params
     )
     
-    # 7. Setup trainer
+    # 8. Setup trainer
     trainer = BaseTrainer(model, experiment_manager, task_type)
     
-    # 8. Save experiment configuration
+    # 9. Save experiment configuration
     config = {
         'data_path': data_path,
         'model_type': model_type,
@@ -243,6 +329,7 @@ def run_experiment(data_path, model_type, section, experiment_id=None,
         'test_size': test_size,
         'val_size': val_size,
         'normalize': normalize,
+        'use_feature_engineering': use_feature_engineering,
         'epochs': epochs,
         'batch_size': batch_size,
         'model_params': model_params,
@@ -254,7 +341,7 @@ def run_experiment(data_path, model_type, section, experiment_id=None,
     }
     experiment_manager.save_config(config)
     
-    # 9. Train model
+    # 10. Train model
     history = trainer.train(
         X_train, y_train,
         X_val, y_val,
@@ -262,10 +349,10 @@ def run_experiment(data_path, model_type, section, experiment_id=None,
         batch_size=batch_size
     )
     
-    # 10. Evaluate model
+    # 11. Evaluate model
     trainer.evaluate_model(X_test, y_test)
     
-    # 11. Save model
+    # 12. Save model
     trainer.save_model()
     
     print("=" * 50)

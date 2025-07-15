@@ -1,0 +1,40 @@
+{
+  "data_path": "data/section2/section2_mixed_1000.csv",
+  "model_type": "densenet",
+  "section": 2,
+  "task_type": "classification",
+  "input_dim": 3,
+  "output_dim": 20,
+  "num_classes": 20,
+  "test_size": 0.2,
+  "val_size": 0.2,
+  "normalize": true,
+  "use_feature_engineering": false,
+  "epochs": 100,
+  "batch_size": 32,
+  "model_params": {
+    "hidden_dims": [
+      256,
+      128,
+      64
+    ],
+    "dropout_rate": 0.2,
+    "l2_reg": 0.001
+  },
+  "data_shape": {
+    "train": [
+      11939,
+      3
+    ],
+    "val": [
+      3980,
+      3
+    ],
+    "test": [
+      3980,
+      3
+    ]
+  },
+  "experiment_id": "20250715_section2_004",
+  "timestamp": "2025-07-15T10:39:06.303303"
+}
