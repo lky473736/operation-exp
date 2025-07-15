@@ -1,14 +1,6 @@
 # operation
 (project) A regression machine that learns a dataset based on an equation created using various operators
 
-> Can AI infer the formula given only specific terms and results?
-
-```txt
-Project Duration: 2024.09.06. ~ 2024.10.
-Report Writing Period: 2024.11. ~ 2024.12.
-Weekly Wrap-up video filming and uploading
-```
-
 ## Introduction
 This project started with the question of **whether AI can be given an intuition about formulas**. It is an experiment to determine whether AI can infer a formula given only specific terms and results. The key to the formula is understanding the relationship between operands (operators) and using this to predict results from given operands. This experiment aims to explore whether AI can learn rules between operands without being given operators and, furthermore, if it can infer the operators themselves.
 

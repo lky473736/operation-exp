@@ -1,14 +1,6 @@
 # operation
 (project) A regression machine that learns a dataset based on an equation created using various operators
 
-> 특정 항과 결과만 주어졌을 때, 인공지능은 식을 추론할 수 있을까?
-
-```txt
-프로젝트 진행 기간 : 2024.09.06. ~ 2024.10.
-보고서 작성 기간 : 2024.11. ~ 2024.12.
-매주 Wrap-up video 촬영 및 업로드
-```
-
 <a href='./docs/README_eng.md'><b>README written by English is here.</b></a>
 
 ## Introduction
