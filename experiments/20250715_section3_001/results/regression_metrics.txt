@@ -1,7 +1,0 @@
-REGRESSION PERFORMANCE REPORT
-==================================================
-
-R² Score: -0.0154
-Root Mean Squared Error (RMSE): 2234.6748
-Mean Absolute Error (MAE): 1779.5205
-Mean Squared Error (MSE): 4993771.6330
